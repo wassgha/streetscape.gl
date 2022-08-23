@@ -53,20 +53,7 @@ const CONFIG = {
       },
       {
         test: /\.s?css$/,
-        use: [
-          {
-            loader: 'style-loader'
-          },
-          {
-            loader: 'css-loader'
-          },
-          {
-            loader: 'sass-loader',
-            options: {
-              includePaths: ['./node_modules', '.']
-            }
-          }
-        ]
+        use: ['style-loader', 'css-loader', 'sass-loader']
       }
     ]
   },
@@ -97,7 +84,7 @@ module.exports = env => {
       devServer: {
         contentBase: [
           resolve(__dirname, '../../website/src/static'),
-          resolve(__dirname, '../../../xviz-data'),
+          resolve(__dirname, '../../xviz-data'),
           resolve(__dirname)
         ]
       },
@@ -117,5 +104,23 @@ module.exports = env => {
       })
     );
   }
+
+  config.plugins = config.plugins.concat([
+    new webpack.ProvidePlugin({
+      Buffer: ['buffer', 'Buffer']
+    }),
+    new webpack.ProvidePlugin({
+      process: 'process/browser'
+    })
+  ]);
+
+  config.resolve = {
+    extensions: ['.ts', '.js'],
+    fallback: {
+      stream: require.resolve('stream-browserify'),
+      buffer: require.resolve('buffer')
+    }
+  };
+
   return require('../webpack.config.local')(config)(env);
 };

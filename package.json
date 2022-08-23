@@ -58,8 +58,6 @@
     "yarn": ">= 1.10.0"
   },
   "pre-commit": [
-    "copyright-check",
-    "test-fast"
   ],
   "private": true,
   "dependencies": {}

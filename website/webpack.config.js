@@ -93,7 +93,9 @@ const CONFIG = {
           {
             loader: 'sass-loader',
             options: {
-              includePaths: ['./node_modules', '.']
+              sassOptions: {
+                includePaths: ['./node_modules', '.']
+              }
             }
           }
         ]
@@ -125,7 +127,7 @@ module.exports = (env = {}) => {
     new webpack.DefinePlugin({__IS_LOCAL__: JSON.stringify(Boolean(env.local))})
   ]);
 
-  if (Boolean(env.local)) {
+  if (env.local) {
     config.devServer.contentBase = config.devServer.contentBase.concat([
       resolve(__dirname, './src-local/static')
     ]);
